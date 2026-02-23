@@ -27,12 +27,23 @@
       </a>
       <nav class="header-nav">
         <a href="/rides/" class="nav-link">Find a Ride</a>
+        <a href="/event/enter/" class="nav-link">Enter Event Code</a>
+        <a href="/driver/apply/" class="nav-link">Apply to be a Driver</a>
+        <a href="/accounts/login/?next=/organizer/events/new/" class="nav-link">Organizer Login</a>
       </nav>
     </div>
   </header>
 
   <!-- Page content injected by child templates -->
   <main class="site-main">
+    <!-- Django messages (used for code entry + driver dashboard actions) -->
+    {% if messages %}
+      <div class="messages-wrap">
+        {% for message in messages %}
+          <div class="message message-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
     {% block content %}
     {% endblock %}
   </main>

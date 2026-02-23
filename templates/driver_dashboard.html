@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="results">
+  <h3>Driver dashboard</h3>
+  <p>
+    Event: <strong>{{ offer.event.name }}</strong><br>
+    Pickup: <strong>{{ offer.pickup_label }}</strong>{% if offer.pickup_address %} ({{ offer.pickup_address }}){% endif %}<br>
+    Destination: <strong>{{ offer.event.destination_name }}</strong><br>
+    Seats remaining: <strong>{{ offer.seats_available }}</strong> / {{ offer.seats_total }}<br>
+    Duration: {% if offer.duration_minutes %}{{ offer.duration_minutes }} minutes{% else %}-{% endif %}<br>
+    Driving score: <strong>{{ offer.driving_score }}</strong>
+  </p>
+
+  <p style="margin-top: 10px; font-size: 13px; color: #5f6368;">
+    This page auto-refreshes to show new ride requests.
+  </p>
+</div>
+
+<div class="results">
+  <h3>Pending requests</h3>
+  {% if pending_requests %}
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Rider</th>
+          <th>Contact</th>
+          <th>Passengers</th>
+          <th>Pickup notes</th>
+          <th>Requested at</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in pending_requests %}
+          <tr>
+            <td>{{ r.rider_name }}</td>
+            <td>{{ r.rider_contact }}</td>
+            <td>{{ r.passengers_count }}</td>
+            <td>{{ r.pickup_notes }}</td>
+            <td>{{ r.requested_at }}</td>
+            <td>
+              <form method="post" action="/driver/dashboard/{{ offer.manage_token }}/request/{{ r.id }}/accept/" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Accept</button>
+              </form>
+              <form method="post" action="/driver/dashboard/{{ offer.manage_token }}/request/{{ r.id }}/reject/" style="display:inline; margin-left:8px;">
+                {% csrf_token %}
+                <button type="submit">Reject</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-results">No pending requests yet.</p>
+  {% endif %}
+</div>
+
+<div class="results">
+  <h3>Accepted passengers</h3>
+  {% if accepted_requests %}
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Rider</th>
+          <th>Passengers</th>
+          <th>Contact</th>
+          <th>Pickup notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in accepted_requests %}
+          <tr>
+            <td>{{ r.rider_name }}</td>
+            <td>{{ r.passengers_count }}</td>
+            <td>{{ r.rider_contact }}</td>
+            <td>{{ r.pickup_notes }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-results">No accepted passengers yet.</p>
+  {% endif %}
+</div>
+
+<script>
+  // Simple polling: refresh every 10 seconds for new requests.
+  setTimeout(function () { window.location.reload(); }, 10000);
+</script>
+{% endblock %}
+

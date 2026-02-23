@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="search-form">
+  <h2>Join a ride for: {{ event.name }}</h2>
+  <p style="margin: 10px 0 18px; color: #5f6368;">
+    Pick a driver below, then send a request to join.
+  </p>
+</div>
+
+<!-- Leaflet map (Uber-like map placeholder) -->
+<div class="map-wrap">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+  <div id="ride-map"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+  <script>
+    (function () {
+      var map = L.map('ride-map').setView([37.7749, -122.4194], 11); // default center
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      var offers = [
+        {% for o in offers %}
+          {
+            id: {{ o.id }},
+            label: "{{ o.pickup_label|escapejs }}",
+            lat: {% if o.pickup_lat is not None %}{{ o.pickup_lat }}{% else %}null{% endif %},
+            lng: {% if o.pickup_lng is not None %}{{ o.pickup_lng }}{% else %}null{% endif %}
+          }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ];
+
+      var first = null;
+      for (var i = 0; i < offers.length; i++) {
+        var o = offers[i];
+        if (o.lat === null || o.lng === null) continue;
+        if (!first) first = o;
+        var m = L.marker([o.lat, o.lng]).addTo(map);
+        m.bindPopup('<strong>' + o.label + '</strong><br><a href="/ride/' + o.id + '/request/">Request to join</a>');
+      }
+      if (first) {
+        map.setView([first.lat, first.lng], 12);
+      }
+    }());
+  </script>
+</div>
+
+<div class="results">
+  <h3>Available rides</h3>
+  {% if offers %}
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Driver</th>
+          <th>Pickup</th>
+          <th>Seats left</th>
+          <th>Duration (min)</th>
+          <th>Driving score</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for o in offers %}
+          <tr>
+            <td>{{ o.driver_name }}</td>
+            <td>{{ o.pickup_label }}</td>
+            <td>{{ o.seats_available }}</td>
+            <td>{% if o.duration_minutes %}{{ o.duration_minutes }}{% else %}-{% endif %}</td>
+            <td>{{ o.driving_score }}</td>
+            <td><a href="/ride/{{ o.id }}/request/">Request to join</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-results">No rides available yet. Check back soon, or ask someone to offer a ride.</p>
+  {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search-form">
+  <h2>Event created</h2>
+  <p style="margin: 10px 0 18px; color: #5f6368;">
+    Share either the code or invite link below with your attendees.
+  </p>
+
+  <table class="search-table">
+    <tr>
+      <td><strong>Event</strong></td>
+      <td>{{ event.name }}</td>
+    </tr>
+    <tr>
+      <td><strong>Invite code</strong></td>
+      <td><code style="font-size: 16px;">{{ event.code }}</code></td>
+    </tr>
+    <tr>
+      <td><strong>Invite link</strong></td>
+      <td><a href="{{ invite_url }}">{{ invite_url }}</a></td>
+    </tr>
+    <tr>
+      <td><strong>Portal link</strong></td>
+      <td><a href="{{ portal_url }}">{{ portal_url }}</a></td>
+    </tr>
+  </table>
+</div>
+{% endblock %}
+

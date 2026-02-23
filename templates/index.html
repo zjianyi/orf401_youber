@@ -8,8 +8,111 @@
         <img src="{% static 'logo_youber.png' %}" alt="YoUber logo" class="hero-logo">
         <h1>Welcome to YoUber</h1>
         <p>Find a ride partner for your next event. Search for other registrants near you and share the journey.</p>
-        <a href="/rides/" class="btn-primary">Find a Ride &rarr;</a>
+        <div class="home-cta-row">
+            <a href="/rides/" class="btn-primary">Find a Ride by Location &rarr;</a>
+        </div>
     </div>
 
+    <!-- New homepage options: enter event code / apply as driver / organizer login -->
+    <div class="home-options">
+        <div class="home-card">
+            <h2>Join a specific event</h2>
+            <p>Enter the code provided by your event organizer to offer a ride or join one.</p>
+            <form action="/event/enter/" method="get" class="code-form">
+                <input type="text" name="code" maxlength="12" placeholder="Enter event code" required>
+                <button type="submit" class="btn-primary">Continue</button>
+            </form>
+        </div>
+
+        <div class="home-card">
+            <h2>Apply to become a driver</h2>
+            <p>Tell us about your vehicle and driving habits so we can keep rides safe and reliable.</p>
+            <a href="/driver/apply/" class="btn-primary">Apply &rarr;</a>
+        </div>
+
+        <div class="home-card">
+            <h2>Event organizer log in</h2>
+            <p>Create an invite link + code for your event so only attendees can access ride details.</p>
+            <a href="/accounts/login/?next=/organizer/events/new/" class="btn-primary">Organizer Login &rarr;</a>
+        </div>
+
+        <div class="home-card">
+            <h2>Create your own event</h2>
+            <p>Planning a trip or meetup? Create a rideshare for your own event and invite others.</p>
+            <a href="/events/create/" class="btn-primary">Create event &rarr;</a>
+        </div>
+
+        <div class="home-card">
+            <h2>Airport rides</h2>
+            <p>Heading to or from the airport? Find or create rideshares grouped by flight.</p>
+            <a href="/airport/" class="btn-primary">Airport rides &rarr;</a>
+        </div>
+    </div>
+
+    <!-- Events nearby section -->
+    <div class="nearby-section">
+        <div class="nearby-header">
+            <h2>Events nearby</h2>
+            <p>Jump straight into verified public events with shared rides.</p>
+        </div>
+        <div class="nearby-columns">
+            <div class="nearby-column">
+                <h3>Sports &amp; concerts</h3>
+                {% if sports_events %}
+                    {% for e in sports_events %}
+                        <a class="nearby-card" href="/event/{{ e.code }}/">
+                            <div class="nearby-title">{{ e.name }}</div>
+                            <div class="nearby-meta">
+                                {{ e.destination_name }}
+                                {% if e.city %}&middot; {{ e.city }}{% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-results">No public sports events yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="nearby-column">
+                <h3>Professional events</h3>
+                {% if professional_events %}
+                    {% for e in professional_events %}
+                        <a class="nearby-card" href="/event/{{ e.code }}/">
+                            <div class="nearby-title">{{ e.name }}</div>
+                            <div class="nearby-meta">
+                                {{ e.destination_name }}
+                                {% if e.city %}&middot; {{ e.city }}{% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-results">No public professional events yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="nearby-column">
+                <h3>Airport rides</h3>
+                {% if airport_events %}
+                    {% for e in airport_events %}
+                        <a class="nearby-card" href="/event/{{ e.code }}/">
+                            <div class="nearby-title">
+                                {% if e.flight_number %}
+                                  Flight {{ e.flight_number }}
+                                {% else %}
+                                  {{ e.name }}
+                                {% endif %}
+                            </div>
+                            <div class="nearby-meta">
+                                {{ e.airport_code }}
+                                {% if e.destination_name %}&rarr; {{ e.destination_name }}{% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-results">No public airport rides yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
