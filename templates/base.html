@@ -1,17 +1,47 @@
 {% load static %}
 
-<html>
-<title> ORF 401: Spring 2022 </title>
+<!DOCTYPE html>
+<html lang="en">
 
-<body bgcolor="white" text="black">
-  <center>
-    <h1>ORF 401</h1>
-    <img src="{% static 'logo_youber.png' %}" alt="Image of logo" width="300">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YoUber</title>
+  <!-- Google Fonts: Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'main.css' %}">
+  <script src="{% static 'main.js' %}"></script>
+</head>
 
+<body>
+
+  <!-- Fixed full-screen canvas for particle effects -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Shared header with logo, title, and navigation -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="header-brand">
+        <img src="{% static 'logo_youber.png' %}" alt="YoUber logo" class="header-logo">
+        <span class="header-title">YoUber</span>
+      </a>
+      <nav class="header-nav">
+        <a href="/rides/" class="nav-link">Find a Ride</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page content injected by child templates -->
+  <main class="site-main">
     {% block content %}
     {% endblock %}
+  </main>
 
-  </center>
+  <!-- Shared footer -->
+  <footer class="site-footer">
+    <p>&copy; 2026 YoUber, Inc. All rights reserved.</p>
+  </footer>
+
 </body>
 
 </html>

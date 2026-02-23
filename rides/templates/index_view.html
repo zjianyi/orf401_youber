@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="search-form"> 
+<div class="search-form">
   <h2>Search for Ride Share Partners</h2>
   <form action="{% url 'rides:index' %}" method="get">
-    <table>
+    <table class="search-table">
       <tr>
         <td>{{ form.city.label_tag }}</td>
         <td>{{ form.city }}</td>
@@ -14,7 +14,8 @@
         <td>{{ form.state }}</td>
       </tr>
       <tr>
-        <td colspan="2"><input type="submit" value="Search"></td>
+        <td></td>
+        <td><input type="submit" value="Search" onclick="return checkForm();"></td>
       </tr>
     </table>
   </form>
@@ -31,10 +32,10 @@
       for State: "{{ search_state }}"
     {% endif %}
   </h3>
-  
+
   {% if people %}
     <p>Found {{ people.count }} registrant(s)</p>
-    <table border="1" cellpadding="5" cellspacing="0">
+    <table class="results-table">
       <thead>
         <tr>
           <th>Name</th>
@@ -50,20 +51,20 @@
       <tbody>
         {% for person in people %}
         <tr>
-          <td>{{ person.first_name }}</td> 
+          <td>{{ person.first_name }}</td>
           <td>{{ person.origination }}</td>
-          <td>{{ person.destination_city }}</td> 
-          <td>{{ person.destination_state }}</td> 
-          <td>{{ person.date }}</td> 
-          <td>{{ person.time }}</td> 
+          <td>{{ person.destination_city }}</td>
+          <td>{{ person.destination_state }}</td>
+          <td>{{ person.date }}</td>
+          <td>{{ person.time }}</td>
           <td>{% if person.taking_passengers %}Yes{% else %}No{% endif %}</td>
-          <td>{{ person.seats_available }}</td> 
+          <td>{{ person.seats_available }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   {% else %}
-    <p><em>No registrants found matching your search criteria.</em></p>
+    <p class="no-results">No registrants found matching your search criteria.</p>
   {% endif %}
 </div>
 {% endif %}

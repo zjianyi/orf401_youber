@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="hero">
+    <!-- Frosted glass card containing logo, welcome text, and CTA -->
+    <div class="hero-card">
+        <img src="{% static 'logo_youber.png' %}" alt="YoUber logo" class="hero-logo">
+        <h1>Welcome to YoUber</h1>
+        <p>Find a ride partner for your next event. Search for other registrants near you and share the journey.</p>
+        <a href="/rides/" class="btn-primary">Find a Ride &rarr;</a>
+    </div>
+
+</div>
+{% endblock %}
