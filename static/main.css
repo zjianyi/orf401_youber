@@ -31,9 +31,11 @@ body {
     display: flex;
     flex-direction: column;
     /* Colorful moving gradient background */
-    background: linear-gradient(-45deg, #4285f4, #a855f7, #f97316, #3367d6);
+    background: linear-gradient(-45deg, #5a8fd4, #9b6fc7, #d4722a, #3a5eaa);
+    /* desaturated from original */
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    animation: gradientShift 30s ease infinite;
+    /* slowed from 15s to 30s */
 }
 
 a {
@@ -103,6 +105,7 @@ a:hover {
 .header-logo {
     height: 36px;
     width: auto;
+    mix-blend-mode: multiply;
 }
 
 .header-title {
@@ -186,6 +189,7 @@ a:hover {
 .hero-logo {
     width: 160px;
     margin-bottom: 28px;
+    mix-blend-mode: multiply;
 }
 
 .hero h1 {
@@ -400,9 +404,11 @@ a:hover {
 .message-success {
     border-left: 4px solid #2e7d32;
 }
+
 .message-error {
     border-left: 4px solid #c62828;
 }
+
 .message-info {
     border-left: 4px solid #1565c0;
 }
@@ -543,10 +549,322 @@ a:hover {
     .home-options {
         grid-template-columns: 1fr;
     }
+
     .code-form {
         flex-direction: column;
     }
+
     .nearby-columns {
         grid-template-columns: 1fr;
     }
+}
+
+/* =========================================================
+   Utility: secondary button
+   ========================================================= */
+/* Small inline "Join Ride" button used in search results table */
+.btn-join {
+    display: inline-block;
+    background-color: rgba(66, 133, 244, 0.7);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 16px;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+    text-shadow: none;
+}
+
+.btn-join:hover {
+    background-color: #3367d6;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: background 0.2s;
+    text-shadow: none;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* =========================================================
+   Utility: seats / status badges
+   ========================================================= */
+.seats-badge {
+    background: rgba(66, 133, 244, 0.35);
+    border: 1px solid rgba(66, 133, 244, 0.5);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.status-badge {
+    border-radius: 12px;
+    padding: 3px 12px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.status-pending {
+    background: rgba(251, 188, 4, 0.3);
+    border: 1px solid rgba(251, 188, 4, 0.5);
+    color: #fff;
+}
+
+.status-accepted {
+    background: rgba(52, 168, 83, 0.3);
+    border: 1px solid rgba(52, 168, 83, 0.5);
+    color: #fff;
+}
+
+.status-rejected {
+    background: rgba(234, 67, 53, 0.3);
+    border: 1px solid rgba(234, 67, 53, 0.5);
+    color: #fff;
+}
+
+/* =========================================================
+   Form helpers
+   ========================================================= */
+.form-subtitle {
+    font-size: 15px;
+    color: #1a1a1a;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-shadow: none;
+}
+
+.form-back-link {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #e0e0e0;
+    text-align: center;
+}
+
+/* =========================================================
+   Join-ride page: header bar
+   ========================================================= */
+.join-header {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 16px;
+    padding: 16px 24px;
+}
+
+.join-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.join-header h2 {
+    font-size: 22px;
+    font-weight: 400;
+    color: #ffffff;
+    margin-bottom: 4px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.event-subtitle {
+    font-size: 14px;
+    color: #e0e0e0;
+    line-height: 1.5;
+}
+
+.event-meta {
+    margin-left: 8px;
+    opacity: 0.8;
+}
+
+/* =========================================================
+   Join-ride page: Leaflet map
+   ========================================================= */
+.map-wrap {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 16px;
+    padding: 8px;
+    overflow: hidden;
+}
+
+#ride-map {
+    width: 100%;
+    height: 280px;
+    border-radius: 10px;
+    z-index: 2;
+}
+
+/* =========================================================
+   Join-ride page: ride cards grid
+   ========================================================= */
+.rides-grid-wrap {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 48px;
+}
+
+.rides-grid-title {
+    font-size: 18px;
+    font-weight: 400;
+    color: #e0e0e0;
+    margin-bottom: 16px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.rides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.ride-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+}
+
+.ride-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ride-driver-name {
+    font-size: 17px;
+    font-weight: 500;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.ride-score {
+    font-size: 13px;
+    color: #fbbc04;
+    font-weight: 500;
+}
+
+.ride-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ride-detail-row {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.ride-detail-label {
+    color: rgba(255, 255, 255, 0.6);
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.ride-detail-value {
+    color: #ffffff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.ride-card-btn {
+    margin-top: auto;
+    text-align: center;
+}
+
+/* No rides available */
+.no-rides-panel {
+    padding: 36px;
+    text-align: center;
+}
+
+.no-results-hint {
+    font-size: 13px;
+    color: rgba(224, 224, 224, 0.7);
+    margin-top: 6px;
+}
+
+/* =========================================================
+   Event portal: side-by-side action buttons
+   ========================================================= */
+.portal-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+/* =========================================================
+   Confirmation page: success icon + details table
+   ========================================================= */
+.success-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(52, 168, 83, 0.35);
+    border: 2px solid rgba(52, 168, 83, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: #81c995;
+    margin-bottom: 20px;
+}
+
+.confirmation-details {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+.confirmation-row {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    align-items: center;
+}
+
+.confirmation-label {
+    color: rgba(255, 255, 255, 0.6);
+    min-width: 100px;
+    flex-shrink: 0;
+}
+
+.confirmation-value {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* =========================================================
+   Override: site-main flex direction for multi-block pages
+   ========================================================= */
+.site-main.flow {
+    flex-direction: column;
+    align-items: center;
 }

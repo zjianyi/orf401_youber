@@ -35,14 +35,14 @@
   </header>
 
   <!-- Page content injected by child templates -->
-  <main class="site-main">
+  <main class="site-main {% block main_class %}{% endblock %}">
     <!-- Django messages (used for code entry + driver dashboard actions) -->
     {% if messages %}
-      <div class="messages-wrap">
-        {% for message in messages %}
-          <div class="message message-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-      </div>
+    <div class="messages-wrap">
+      {% for message in messages %}
+      <div class="message message-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
     {% endif %}
     {% block content %}
     {% endblock %}

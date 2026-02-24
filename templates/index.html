@@ -59,57 +59,57 @@
             <div class="nearby-column">
                 <h3>Sports &amp; concerts</h3>
                 {% if sports_events %}
-                    {% for e in sports_events %}
-                        <a class="nearby-card" href="/event/{{ e.code }}/">
-                            <div class="nearby-title">{{ e.name }}</div>
-                            <div class="nearby-meta">
-                                {{ e.destination_name }}
-                                {% if e.city %}&middot; {{ e.city }}{% endif %}
-                            </div>
-                        </a>
-                    {% endfor %}
+                {% for e in sports_events %}
+                <a class="nearby-card" href="/event/{{ e.code }}/">
+                    <div class="nearby-title">{{ e.name }}</div>
+                    <div class="nearby-meta">
+                        {{ e.destination_name }}
+                        {% if e.city %}&middot; {{ e.city }}{% endif %}
+                    </div>
+                </a>
+                {% endfor %}
                 {% else %}
-                    <p class="no-results">No public sports events yet.</p>
+                <p class="no-results">No public sports events yet.</p>
                 {% endif %}
             </div>
 
             <div class="nearby-column">
                 <h3>Professional events</h3>
                 {% if professional_events %}
-                    {% for e in professional_events %}
-                        <a class="nearby-card" href="/event/{{ e.code }}/">
-                            <div class="nearby-title">{{ e.name }}</div>
-                            <div class="nearby-meta">
-                                {{ e.destination_name }}
-                                {% if e.city %}&middot; {{ e.city }}{% endif %}
-                            </div>
-                        </a>
-                    {% endfor %}
+                {% for e in professional_events %}
+                <a class="nearby-card" href="/event/{{ e.code }}/">
+                    <div class="nearby-title">{{ e.name }}</div>
+                    <div class="nearby-meta">
+                        {{ e.destination_name }}
+                        {% if e.city %}&middot; {{ e.city }}{% endif %}
+                    </div>
+                </a>
+                {% endfor %}
                 {% else %}
-                    <p class="no-results">No public professional events yet.</p>
+                <p class="no-results">No public professional events yet.</p>
                 {% endif %}
             </div>
 
             <div class="nearby-column">
                 <h3>Airport rides</h3>
                 {% if airport_events %}
-                    {% for e in airport_events %}
-                        <a class="nearby-card" href="/event/{{ e.code }}/">
-                            <div class="nearby-title">
-                                {% if e.flight_number %}
-                                  Flight {{ e.flight_number }}
-                                {% else %}
-                                  {{ e.name }}
-                                {% endif %}
-                            </div>
-                            <div class="nearby-meta">
-                                {{ e.airport_code }}
-                                {% if e.destination_name %}&rarr; {{ e.destination_name }}{% endif %}
-                            </div>
-                        </a>
-                    {% endfor %}
+                {% for e in airport_events %}
+                <a class="nearby-card" href="/event/{{ e.code }}/">
+                    <div class="nearby-title">
+                        {% if e.flight_number %}
+                        Flight {{ e.flight_number }}
+                        {% else %}
+                        {{ e.name }}
+                        {% endif %}
+                    </div>
+                    <div class="nearby-meta">
+                        {{ e.airport_code }}
+                        {% if e.destination_name %}&rarr; {{ e.destination_name }}{% endif %}
+                    </div>
+                </a>
+                {% endfor %}
                 {% else %}
-                    <p class="no-results">No public airport rides yet.</p>
+                <p class="no-results">No public airport rides yet.</p>
                 {% endif %}
             </div>
         </div>

@@ -1,24 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="search-form">
-  <h2>Enter Event Code</h2>
-  <form action="/event/enter/" method="post">
-    {% csrf_token %}
-    <table class="search-table">
-      <tr>
-        <td>{{ form.code.label_tag }}</td>
-        <td>{{ form.code }}</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><input type="submit" value="Continue"></td>
-      </tr>
-    </table>
-  </form>
-  <p style="margin-top: 14px; font-size: 13px; color: #5f6368;">
-    Tip: You can also use an invite link from your organizer.
-  </p>
+<div class="hero">
+  <div class="hero-card frosted-glass-panel">
+    <h2>Enter Event Code</h2>
+    <p>Type the invite code your event organizer shared with you.</p>
+
+    <form action="/event/enter/" method="post" style="width: 100%;">
+      {% csrf_token %}
+      <table class="search-table">
+        <tr>
+          <td>{{ form.code.label_tag }}</td>
+          <td>{{ form.code }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" value="Continue &rarr;"></td>
+        </tr>
+      </table>
+    </form>
+
+    <p class="form-back-link">
+      Have an invite link? Just click it &mdash; it works automatically.
+    </p>
+  </div>
 </div>
 {% endblock %}
-

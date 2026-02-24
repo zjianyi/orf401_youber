@@ -1,16 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block main_class %}flow{% endblock %}
+
 {% block content %}
-<div class="search-form">
-  <h2>Join a ride for: {{ event.name }}</h2>
-  <p style="margin: 10px 0 18px; color: #5f6368;">
-    Pick a driver below, then send a request to join.
-  </p>
+<!-- Event header -->
+<div class="join-header frosted-glass-panel">
+  <div class="join-header-inner">
+    <div>
+      <h2>Join a Ride</h2>
+      <p class="event-subtitle">
+        <strong>{{ event.name }}</strong> &rarr; {{ event.destination_name }}
+        {% if event.start_time %}<span class="event-meta">{{ event.start_time|date:"M j, Y g:i A" }}</span>{% endif %}
+      </p>
+    </div>
+    <a href="/event/{{ event.code }}/" class="btn-secondary">&larr; Back</a>
+  </div>
 </div>
 
-<!-- Leaflet map (Uber-like map placeholder) -->
-<div class="map-wrap">
+<!-- Map placeholder (shows pickup pins if coordinates are present) -->
+<div class="map-wrap frosted-glass-panel">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin=""/>
@@ -20,7 +29,7 @@
           crossorigin=""></script>
   <script>
     (function () {
-      var map = L.map('ride-map').setView([37.7749, -122.4194], 11); // default center
+      var map = L.map('ride-map').setView([37.7749, -122.4194], 11);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; OpenStreetMap contributors'
@@ -31,6 +40,8 @@
           {
             id: {{ o.id }},
             label: "{{ o.pickup_label|escapejs }}",
+            driver: "{{ o.driver_name|escapejs }}",
+            seats: {{ o.seats_available }},
             lat: {% if o.pickup_lat is not None %}{{ o.pickup_lat }}{% else %}null{% endif %},
             lng: {% if o.pickup_lng is not None %}{{ o.pickup_lng }}{% else %}null{% endif %}
           }{% if not forloop.last %},{% endif %}
@@ -43,45 +54,66 @@
         if (o.lat === null || o.lng === null) continue;
         if (!first) first = o;
         var m = L.marker([o.lat, o.lng]).addTo(map);
-        m.bindPopup('<strong>' + o.label + '</strong><br><a href="/ride/' + o.id + '/request/">Request to join</a>');
+        m.bindPopup(
+          '<strong>' + o.driver + '</strong><br>' +
+          o.label + '<br>' +
+          o.seats + ' seat(s) left<br>' +
+          '<a href="/ride/' + o.id + '/request/">Request to join &rarr;</a>'
+        );
       }
-      if (first) {
-        map.setView([first.lat, first.lng], 12);
-      }
+      if (first) map.setView([first.lat, first.lng], 12);
     }());
   </script>
 </div>
 
-<div class="results">
-  <h3>Available rides</h3>
+<!-- Ride cards -->
+<div class="rides-grid-wrap">
+  <h3 class="rides-grid-title">Available Rides ({{ offers|length }})</h3>
+
   {% if offers %}
-    <table class="results-table">
-      <thead>
-        <tr>
-          <th>Driver</th>
-          <th>Pickup</th>
-          <th>Seats left</th>
-          <th>Duration (min)</th>
-          <th>Driving score</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for o in offers %}
-          <tr>
-            <td>{{ o.driver_name }}</td>
-            <td>{{ o.pickup_label }}</td>
-            <td>{{ o.seats_available }}</td>
-            <td>{% if o.duration_minutes %}{{ o.duration_minutes }}{% else %}-{% endif %}</td>
-            <td>{{ o.driving_score }}</td>
-            <td><a href="/ride/{{ o.id }}/request/">Request to join</a></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="rides-grid">
+      {% for o in offers %}
+      <div class="ride-card frosted-glass-panel">
+        <!-- Driver row -->
+        <div class="ride-card-header">
+          <span class="ride-driver-name">{{ o.driver_name }}</span>
+          <span class="ride-score" title="Driving score">&#9733; {{ o.driving_score }}</span>
+        </div>
+
+        <!-- Details -->
+        <div class="ride-card-details">
+          <div class="ride-detail-row">
+            <span class="ride-detail-label">Pickup</span>
+            <span class="ride-detail-value">{{ o.pickup_label }}{% if o.pickup_address %} &mdash; {{ o.pickup_address }}{% endif %}</span>
+          </div>
+          {% if o.depart_time %}
+          <div class="ride-detail-row">
+            <span class="ride-detail-label">Departs</span>
+            <span class="ride-detail-value">{{ o.depart_time|date:"M j, Y g:i A" }}</span>
+          </div>
+          {% endif %}
+          {% if o.duration_minutes %}
+          <div class="ride-detail-row">
+            <span class="ride-detail-label">Est. duration</span>
+            <span class="ride-detail-value">{{ o.duration_minutes }} min</span>
+          </div>
+          {% endif %}
+          <div class="ride-detail-row">
+            <span class="ride-detail-label">Seats left</span>
+            <span class="ride-detail-value seats-badge">{{ o.seats_available }} / {{ o.seats_total }}</span>
+          </div>
+        </div>
+
+        <!-- Action -->
+        <a href="/ride/{{ o.id }}/request/" class="btn-primary ride-card-btn">Request to Join &rarr;</a>
+      </div>
+      {% endfor %}
+    </div>
   {% else %}
-    <p class="no-results">No rides available yet. Check back soon, or ask someone to offer a ride.</p>
+    <div class="frosted-glass-panel no-rides-panel">
+      <p class="no-results">No rides are available yet for this event.</p>
+      <p class="no-results-hint">Check back soon, or ask your organizer to share the event with drivers.</p>
+    </div>
   {% endif %}
 </div>
 {% endblock %}
-

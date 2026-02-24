@@ -1,24 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="search-form">
-  <h2>{{ event.name }}</h2>
-  <p style="margin: 10px 0 18px; color: #5f6368;">
-    Destination: <strong>{{ event.destination_name }}</strong>
-    {% if event.destination_address %}<br>{{ event.destination_address }}{% endif %}
-    {% if event.start_time %}<br>Starts: {{ event.start_time }}{% endif %}
-    {% if event.end_time %}<br>Ends: {{ event.end_time }}{% endif %}
-  </p>
+<div class="hero">
+  <div class="hero-card frosted-glass-panel">
+    <h2>{{ event.name }}</h2>
+    <p>
+      <strong>Destination:</strong> {{ event.destination_name }}<br>
+      {% if event.destination_address %}{{ event.destination_address }}<br>{% endif %}
+      {% if event.start_time %}<strong>Starts:</strong> {{ event.start_time|date:"M j, Y g:i A" }}<br>{% endif %}
+      {% if event.end_time %}<strong>Ends:</strong> {{ event.end_time|date:"M j, Y g:i A" }}{% endif %}
+    </p>
 
-  <table class="search-table">
-    <tr>
-      <td></td>
-      <td>
-        <a class="btn-primary" href="/event/{{ event.code }}/offer/">Offer a Ride</a>
-        <a class="btn-primary" style="margin-left: 10px;" href="/event/{{ event.code }}/join/">Join a Ride</a>
-      </td>
-    </tr>
-  </table>
+    <!-- Two clear action buttons -->
+    <div class="portal-actions">
+      <a class="btn-primary" href="/event/{{ event.code }}/join/">
+        &#128663; Join a Ride
+      </a>
+      <a class="btn-secondary" href="/event/{{ event.code }}/offer/">
+        &#43; Offer a Ride
+      </a>
+    </div>
+  </div>
 </div>
 {% endblock %}
-

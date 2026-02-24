@@ -4,39 +4,31 @@
 <div class="search-form frosted-glass-panel">
   <h2>Request to Join This Ride</h2>
   <p class="form-subtitle">
-    Driver: <strong>{{ ride.driver_name }}</strong><br>
-    Pickup: {{ ride.pickup_label }}{% if ride.pickup_address %} &mdash; {{ ride.pickup_address }}{% endif %}<br>
-    Event: {{ event.name }}<br>
-    <span class="seats-badge">{{ ride.seats_available }} seat(s) available</span>
+    Driver: <strong>{{ person.first_name }}</strong><br>
+    From: {{ person.origination }} &rarr; {{ person.destination_city }}, {{ person.destination_state }}<br>
+    Date: {{ person.date }} at {{ person.time }}<br>
+    <span class="seats-badge">{{ person.seats_available }} seat(s) available</span>
   </p>
 
   <form method="post">
     {% csrf_token %}
     <table class="search-table">
-      <!-- Rider name -->
       <tr>
         <td>{{ form.rider_name.label_tag }}</td>
         <td>{{ form.rider_name }}</td>
       </tr>
-      <!-- Contact info -->
       <tr>
         <td>{{ form.rider_contact.label_tag }}</td>
         <td>{{ form.rider_contact }}</td>
       </tr>
-      <!-- Number of passengers -->
       <tr>
         <td>{{ form.passengers_count.label_tag }}</td>
         <td>{{ form.passengers_count }}</td>
       </tr>
-      <!-- Pickup notes -->
       <tr>
-        <td>{{ form.pickup_notes.label_tag }}</td>
-        <td>{{ form.pickup_notes }}</td>
+        <td>{{ form.notes.label_tag }}</td>
+        <td>{{ form.notes }}</td>
       </tr>
-      <!-- Hidden lat/lng fields (not shown to user) -->
-      <tr style="display:none;"><td>{{ form.pickup_lat }}</td></tr>
-      <tr style="display:none;"><td>{{ form.pickup_lng }}</td></tr>
-      <!-- Submit -->
       <tr>
         <td></td>
         <td><input type="submit" value="Send Request"></td>
@@ -45,7 +37,7 @@
   </form>
 
   <p class="form-back-link">
-    <a href="/event/{{ event.code }}/join/">&larr; Back to all rides</a>
+    <a href="{% url 'rides:index' %}">&larr; Back to search results</a>
   </p>
 </div>
 {% endblock %}

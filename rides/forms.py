@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import DriverApplication, Event, RideOffer, RideRequest
+from .models import DriverApplication, Event, RideOffer, RideRequest, PersonRideRequest
 
 
 class RideForm(forms.Form):
@@ -152,4 +152,13 @@ class RideRequestForm(ModelForm):
     if n is not None and n < 1:
       raise forms.ValidationError("Passenger count must be at least 1.")
     return n
+
+
+class PersonRideRequestForm(ModelForm):
+  """
+  Rider flow: request to join a Person's ride from the search-results page.
+  """
+  class Meta:
+    model = PersonRideRequest
+    fields = ["rider_name", "rider_contact", "passengers_count", "notes"]
 

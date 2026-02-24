@@ -1,0 +1,62 @@
+[
+  {
+    "model": "rides.event",
+    "pk": 1,
+    "fields": {
+      "name": "YoUber Test Event 2026",
+      "destination_name": "Staples Center, Los Angeles",
+      "destination_address": "1111 S Figueroa St, Los Angeles, CA 90015",
+      "start_time": "2026-03-15T19:00:00",
+      "end_time": "2026-03-15T23:00:00",
+      "category": "sports",
+      "city": "Los Angeles",
+      "is_public": true,
+      "airport_code": "",
+      "flight_number": "",
+      "code": "TEST2026",
+      "invite_token": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "created_by": null,
+      "created_at": "2026-01-01T00:00:00"
+    }
+  },
+  {
+    "model": "rides.rideoffer",
+    "pk": 1,
+    "fields": {
+      "event": 1,
+      "driver_name": "Alex Rivera",
+      "driver_contact": "alex@example.com",
+      "pickup_label": "Santa Monica Pier",
+      "pickup_address": "200 Santa Monica Pier, Santa Monica, CA 90401",
+      "pickup_lat": 34.0095,
+      "pickup_lng": -118.4975,
+      "seats_total": 3,
+      "seats_available": 3,
+      "depart_time": "2026-03-15T17:30:00",
+      "duration_minutes": 45,
+      "driving_score": 4.8,
+      "manage_token": "11111111-2222-3333-4444-555555555555",
+      "created_at": "2026-01-01T00:00:00"
+    }
+  },
+  {
+    "model": "rides.rideoffer",
+    "pk": 2,
+    "fields": {
+      "event": 1,
+      "driver_name": "Jamie Chen",
+      "driver_contact": "jamie@example.com",
+      "pickup_label": "UCLA Campus (Bruin Walk)",
+      "pickup_address": "308 Westwood Plaza, Los Angeles, CA 90095",
+      "pickup_lat": 34.0689,
+      "pickup_lng": -118.4452,
+      "seats_total": 4,
+      "seats_available": 4,
+      "depart_time": "2026-03-15T17:00:00",
+      "duration_minutes": 30,
+      "driving_score": 4.9,
+      "manage_token": "66666666-7777-8888-9999-aaaaaaaaaaaa",
+      "created_at": "2026-01-01T00:00:00"
+    }
+  }
+]

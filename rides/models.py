@@ -155,3 +155,22 @@ class RideRequest(models.Model):
 
   def __str__(self):
     return f"{self.ride.event.code} - {self.rider_name} ({self.status})"
+
+
+class PersonRideRequest(models.Model):
+  """
+  A ride-join request submitted from the search-results page for a Person
+  who is taking passengers (Person.taking_passengers == True).
+  """
+  STATUS_PENDING = "pending"
+  STATUS_CHOICES = [(STATUS_PENDING, "Pending")]
+
+  person = models.ForeignKey(Person, related_name="join_requests", on_delete=models.CASCADE)
+  rider_name = models.CharField(max_length=120)
+  rider_contact = models.CharField(max_length=120, blank=True, default="")
+  passengers_count = models.PositiveIntegerField(default=1)
+  notes = models.CharField(max_length=255, blank=True, default="")
+  requested_at = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return f"Request from {self.rider_name} to join {self.person.first_name}'s ride"

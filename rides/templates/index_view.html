@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block main_class %}flow{% endblock %}
+
 {% block content %}
 <div class="search-form">
   <h2>Search for Ride Share Partners</h2>
@@ -44,8 +46,8 @@
           <th>Destination State</th>
           <th>Date</th>
           <th>Time</th>
-          <th>Taking Passengers</th>
           <th>Seats Available</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -57,8 +59,18 @@
           <td>{{ person.destination_state }}</td>
           <td>{{ person.date }}</td>
           <td>{{ person.time }}</td>
-          <td>{% if person.taking_passengers %}Yes{% else %}No{% endif %}</td>
-          <td>{{ person.seats_available }}</td>
+          <td>
+            {% if person.taking_passengers %}
+              <span class="seats-badge">{{ person.seats_available }}</span>
+            {% else %}
+              &mdash;
+            {% endif %}
+          </td>
+          <td>
+            {% if person.taking_passengers and person.seats_available > 0 %}
+              <a href="{% url 'rides:request_person_ride' person.id %}" class="btn-join">Join Ride</a>
+            {% endif %}
+          </td>
         </tr>
         {% endfor %}
       </tbody>

@@ -8,23 +8,23 @@
 
     <h2>Request Sent!</h2>
     <p>
-      Your request to join <strong>{{ ride.driver_name }}</strong>'s ride has been submitted.
-      The driver will accept or reject your request shortly.
+      Your request to join <strong>{{ person.first_name }}</strong>'s ride has been submitted.
+      They will reach out to you using your contact info.
     </p>
 
     <!-- Request summary -->
     <div class="confirmation-details">
       <div class="confirmation-row">
-        <span class="confirmation-label">Event</span>
-        <span class="confirmation-value">{{ event.name }}</span>
-      </div>
-      <div class="confirmation-row">
         <span class="confirmation-label">Driver</span>
-        <span class="confirmation-value">{{ ride.driver_name }}</span>
+        <span class="confirmation-value">{{ person.first_name }}</span>
       </div>
       <div class="confirmation-row">
-        <span class="confirmation-label">Pickup</span>
-        <span class="confirmation-value">{{ ride.pickup_label }}</span>
+        <span class="confirmation-label">Route</span>
+        <span class="confirmation-value">{{ person.origination }} &rarr; {{ person.destination_city }}, {{ person.destination_state }}</span>
+      </div>
+      <div class="confirmation-row">
+        <span class="confirmation-label">Date &amp; Time</span>
+        <span class="confirmation-value">{{ person.date }} at {{ person.time }}</span>
       </div>
       <div class="confirmation-row">
         <span class="confirmation-label">Your name</span>
@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <a class="btn-primary" href="/event/{{ event.code }}/join/">&#8592; Back to rides</a>
+    <a class="btn-primary" href="{% url 'rides:index' %}">&#8592; Back to Search</a>
   </div>
 </div>
 {% endblock %}

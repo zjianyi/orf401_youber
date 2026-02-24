@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 import random
 import string
 
-from .models import Person, Event, DriverApplication, RideOffer, RideRequest
+from .models import Person, Event, DriverApplication, RideOffer, RideRequest, PersonRideRequest
 from .forms import (
   RideForm,
   EventCodeForm,
@@ -19,6 +19,7 @@ from .forms import (
   RideRequestForm,
   PublicEventCreateForm,
   AirportEventForm,
+  PersonRideRequestForm,
 )
 
 
@@ -53,6 +54,31 @@ def index(request):
   context["form"] = RideForm()
 
   return render(request, "index_view.html", context)
+
+
+def request_person_ride(request, person_id):
+  """
+  Search-page flow: a rider requests to join a Person's ride directly from the
+  search results. Only allowed when Person.taking_passengers is True.
+  """
+  person = get_object_or_404(Person, id=person_id)
+
+  # Prevent requests for people who are not offering seats.
+  if not person.taking_passengers:
+    messages.error(request, "This person is not taking passengers.")
+    return redirect("rides:index")
+
+  if request.method == "POST":
+    form = PersonRideRequestForm(request.POST)
+    if form.is_valid():
+      rr = form.save(commit=False)
+      rr.person = person
+      rr.save()
+      return render(request, "person_ride_request_sent.html", {"person": person, "request_obj": rr})
+  else:
+    form = PersonRideRequestForm()
+
+  return render(request, "person_ride_request_form.html", {"person": person, "form": form})
 
 
 def home(request):
