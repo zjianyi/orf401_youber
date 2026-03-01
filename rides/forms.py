@@ -1,12 +1,13 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import DriverApplication, Event, RideOffer, RideRequest, PersonRideRequest
+from .models import DriverApplication, Event, RideOffer, RideRequest, PersonRideRequest, Person
 
 
 class RideForm(forms.Form):
-  city = forms.CharField(label='City', max_length=64, required=False)
-  state = forms.CharField(label='State (2-letter code)', max_length=2, required=False)
+  origin_city = forms.CharField(label='Origin City', max_length=64, required=False)
+  destination_city = forms.CharField(label='Destination City', max_length=64, required=False)
+  destination_state = forms.CharField(label='Destination State', max_length=2, required=False)
 
 
 class EventCodeForm(forms.Form):
@@ -152,6 +153,30 @@ class RideRequestForm(ModelForm):
     if n is not None and n < 1:
       raise forms.ValidationError("Passenger count must be at least 1.")
     return n
+
+
+class NewRideForm(ModelForm):
+  """
+  Form for creating a new Person (ride listing) from the search/results page.
+  Covers all fields on the updated Person model.
+  """
+  class Meta:
+    model = Person
+    fields = [
+      "first_name",
+      "last_name",
+      "email",
+      "origination",
+      "origination_state",
+      "destination_city",
+      "destination_state",
+      "date",
+      "time",
+      "taking_passengers",
+      "seats_available",
+      "vehicle_type",
+      "ride_tier",
+    ]
 
 
 class PersonRideRequestForm(ModelForm):

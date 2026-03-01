@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block main_class %}flow{% endblock %}
+
+{% block content %}
+<div class="ride-form-page">
+
+  <div class="ride-form-card">
+    <div class="ride-form-header">
+      <h2>🚗 Add Your Ride</h2>
+      <p class="ride-form-subtitle">Share your trip details so others can find and join your ride.</p>
+    </div>
+
+    <form action="{% url 'rides:create' %}" method="post" class="ride-form" id="newRideForm">
+      {% csrf_token %}
+
+      <div class="ride-form-section">
+        <h3 class="section-title">Personal Info</h3>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}<span class="field-error">{{ form.first_name.errors|join:", " }}</span>{% endif %}
+          </div>
+          <div class="field-group">
+            <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}<span class="field-error">{{ form.last_name.errors|join:", " }}</span>{% endif %}
+          </div>
+        </div>
+        <div class="field-group full-width">
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+          {{ form.email }}
+          {% if form.email.errors %}<span class="field-error">{{ form.email.errors|join:", " }}</span>{% endif %}
+        </div>
+      </div>
+
+      <div class="ride-form-section">
+        <h3 class="section-title">Origin</h3>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="{{ form.origination.id_for_label }}">{{ form.origination.label }}</label>
+            {{ form.origination }}
+            {% if form.origination.errors %}<span class="field-error">{{ form.origination.errors|join:", " }}</span>{% endif %}
+          </div>
+          <div class="field-group">
+            <label for="{{ form.origination_state.id_for_label }}">{{ form.origination_state.label }}</label>
+            {{ form.origination_state }}
+            {% if form.origination_state.errors %}<span class="field-error">{{ form.origination_state.errors|join:", " }}</span>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="ride-form-section">
+        <h3 class="section-title">Destination</h3>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="{{ form.destination_city.id_for_label }}">{{ form.destination_city.label }}</label>
+            {{ form.destination_city }}
+            {% if form.destination_city.errors %}<span class="field-error">{{ form.destination_city.errors|join:", " }}</span>{% endif %}
+          </div>
+          <div class="field-group">
+            <label for="{{ form.destination_state.id_for_label }}">{{ form.destination_state.label }}</label>
+            {{ form.destination_state }}
+            {% if form.destination_state.errors %}<span class="field-error">{{ form.destination_state.errors|join:", " }}</span>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="ride-form-section">
+        <h3 class="section-title">Schedule</h3>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="{{ form.date.id_for_label }}">{{ form.date.label }}</label>
+            {{ form.date }}
+            {% if form.date.errors %}<span class="field-error">{{ form.date.errors|join:", " }}</span>{% endif %}
+          </div>
+          <div class="field-group">
+            <label for="{{ form.time.id_for_label }}">{{ form.time.label }}</label>
+            {{ form.time }}
+            {% if form.time.errors %}<span class="field-error">{{ form.time.errors|join:", " }}</span>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="ride-form-section">
+        <h3 class="section-title">Ride Details</h3>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="{{ form.vehicle_type.id_for_label }}">{{ form.vehicle_type.label }}</label>
+            {{ form.vehicle_type }}
+          </div>
+          <div class="field-group">
+            <label for="{{ form.ride_tier.id_for_label }}">{{ form.ride_tier.label }}</label>
+            {{ form.ride_tier }}
+          </div>
+        </div>
+        <div class="field-row passengers-row">
+          <div class="field-group checkbox-group">
+            {{ form.taking_passengers }}
+            <label for="{{ form.taking_passengers.id_for_label }}">{{ form.taking_passengers.label }}</label>
+          </div>
+          <div class="field-group">
+            <label for="{{ form.seats_available.id_for_label }}">{{ form.seats_available.label }}</label>
+            {{ form.seats_available }}
+          </div>
+        </div>
+      </div>
+
+      <div class="ride-form-actions">
+        <button type="submit" class="btn-primary">Add Ride</button>
+        <a href="{% url 'rides:index' %}" class="btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

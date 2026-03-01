@@ -24,8 +24,8 @@
     "pk": 1,
     "fields": {
       "event": 1,
-      "driver_name": "Alex Rivera",
-      "driver_contact": "alex@example.com",
+      "driver_name": "Elon Musk",
+      "driver_contact": "elon@example.com",
       "pickup_label": "Santa Monica Pier",
       "pickup_address": "200 Santa Monica Pier, Santa Monica, CA 90401",
       "pickup_lat": 34.0095,
@@ -44,8 +44,8 @@
     "pk": 2,
     "fields": {
       "event": 1,
-      "driver_name": "Jamie Chen",
-      "driver_contact": "jamie@example.com",
+      "driver_name": "Jensen Huang",
+      "driver_contact": "jensen@example.com",
       "pickup_label": "UCLA Campus (Bruin Walk)",
       "pickup_address": "308 Westwood Plaza, Los Angeles, CA 90095",
       "pickup_lat": 34.0689,

@@ -868,3 +868,182 @@ a:hover {
     flex-direction: column;
     align-items: center;
 }
+
+/* =========================================================
+   Add Your Ride CTA (shown below search results)
+   ========================================================= */
+.add-ride-cta {
+    text-align: center;
+    margin: 32px auto 48px;
+    padding: 24px 32px;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    max-width: 400px;
+}
+
+.add-ride-cta p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 12px;
+}
+
+/* =========================================================
+   New Ride Registration Form Page
+   ========================================================= */
+.ride-form-page {
+    width: 100%;
+    max-width: 720px;
+    margin: 40px auto 60px;
+    padding: 0 16px;
+}
+
+.ride-form-card {
+    background: rgba(255, 255, 255, 0.13);
+    backdrop-filter: blur(24px) saturate(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    border-radius: 20px;
+    padding: 40px 48px;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.ride-form-header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.ride-form-header h2 {
+    font-size: 28px;
+    font-weight: 500;
+    color: #ffffff;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 8px;
+}
+
+.ride-form-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Each section group (Personal, Origin, etc.) */
+.ride-form-section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.ride-form-section:last-of-type {
+    border-bottom: none;
+}
+
+.section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+}
+
+/* Two-column field rows */
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.field-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.field-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Style all text/email/date/time/number inputs inside the ride form */
+.ride-form input[type="text"],
+.ride-form input[type="email"],
+.ride-form input[type="date"],
+.ride-form input[type="time"],
+.ride-form input[type="number"],
+.ride-form select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.90);
+    color: #202124;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ride-form input:focus,
+.ride-form select:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.20);
+}
+
+/* Checkbox + label inline */
+.passengers-row {
+    align-items: center;
+}
+
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding-top: 20px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4285f4;
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+}
+
+/* Inline validation errors */
+.field-error {
+    font-size: 12px;
+    color: #ff6b6b;
+}
+
+/* Submit / Cancel buttons */
+.ride-form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+/* Responsive: stack to single column on small screens */
+@media (max-width: 520px) {
+    .field-row {
+        grid-template-columns: 1fr;
+    }
+
+    .ride-form-card {
+        padding: 28px 20px;
+    }
+}

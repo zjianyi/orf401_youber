@@ -23,18 +23,13 @@ function setCookie(c_name, value, exdays) {
    - Shows a popup if the user searches for "Elon Musk"
    ========================================================= */
 function checkForm() {
-    var city = document.getElementById('id_city').value.trim();
-    var state = document.getElementById('id_state').value.trim();
+    var originCity = document.getElementById('id_origin_city').value.trim();
+    var destCity = document.getElementById('id_destination_city').value.trim();
+    var destState = document.getElementById('id_destination_state').value.trim();
 
-    // Block submission if both fields are empty
-    if (city === '' && state === '') {
-        alert('Please enter a city and/or state to search.');
-        return false;
-    }
-
-    // Easter egg: Elon Musk is not in the database
-    if (city.toLowerCase() === 'elon musk') {
-        alert("He's not here");
+    // Block submission if all fields are empty
+    if (originCity === '' && destCity === '' && destState === '') {
+        alert('Please enter at least one search parameter.');
         return false;
     }
 

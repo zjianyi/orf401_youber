@@ -8,12 +8,16 @@
   <form action="{% url 'rides:index' %}" method="get">
     <table class="search-table">
       <tr>
-        <td>{{ form.city.label_tag }}</td>
-        <td>{{ form.city }}</td>
+        <td>{{ form.origin_city.label_tag }}</td>
+        <td>{{ form.origin_city }}</td>
       </tr>
       <tr>
-        <td>{{ form.state.label_tag }}</td>
-        <td>{{ form.state }}</td>
+        <td>{{ form.destination_city.label_tag }}</td>
+        <td>{{ form.destination_city }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.destination_state.label_tag }}</td>
+        <td>{{ form.destination_state }}</td>
       </tr>
       <tr>
         <td></td>
@@ -26,59 +30,60 @@
 {% if inputExists %}
 <div class="results">
   <h3>Search Results
-    {% if search_city and search_state %}
-      for City: "{{ search_city }}" in State: "{{ search_state }}"
-    {% elif search_city %}
-      for City: "{{ search_city }}"
-    {% elif search_state %}
-      for State: "{{ search_state }}"
-    {% endif %}
+    {% if search_origin_city %}from "{{ search_origin_city }}"{% endif %}
+    {% if search_destination_city %}&rarr; "{{ search_destination_city }}"{% endif %}
+    {% if search_destination_state %}in {{ search_destination_state }}{% endif %}
   </h3>
 
   {% if people %}
-    <p>Found {{ people.count }} registrant(s)</p>
-    <table class="results-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Origination</th>
-          <th>Destination City</th>
-          <th>Destination State</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Seats Available</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for person in people %}
-        <tr>
-          <td>{{ person.first_name }}</td>
-          <td>{{ person.origination }}</td>
-          <td>{{ person.destination_city }}</td>
-          <td>{{ person.destination_state }}</td>
-          <td>{{ person.date }}</td>
-          <td>{{ person.time }}</td>
-          <td>
-            {% if person.taking_passengers %}
-              <span class="seats-badge">{{ person.seats_available }}</span>
-            {% else %}
-              &mdash;
-            {% endif %}
-          </td>
-          <td>
-            {% if person.taking_passengers and person.seats_available > 0 %}
-              <a href="{% url 'rides:request_person_ride' person.id %}" class="btn-join">Join Ride</a>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <p>Found {{ people.count }} registrant(s)</p>
+  <table class="results-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Origination</th>
+        <th>Destination City</th>
+        <th>Destination State</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Seats Available</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for person in people %}
+      <tr>
+        <td>{{ person.first_name }}</td>
+        <td>{{ person.origination }}</td>
+        <td>{{ person.destination_city }}</td>
+        <td>{{ person.destination_state }}</td>
+        <td>{{ person.date }}</td>
+        <td>{{ person.time }}</td>
+        <td>
+          {% if person.taking_passengers %}
+          <span class="seats-badge">{{ person.seats_available }}</span>
+          {% else %}
+          &mdash;
+          {% endif %}
+        </td>
+        <td>
+          {% if person.taking_passengers and person.seats_available > 0 %}
+          <a href="{% url 'rides:request_person_ride' person.id %}" class="btn-join">Join Ride</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
   {% else %}
-    <p class="no-results">No registrants found matching your search criteria.</p>
+  <p class="no-results">No registrants found matching your search criteria.</p>
   {% endif %}
 </div>
 {% endif %}
+
+<div class="add-ride-cta">
+  <p>Want to offer a ride?</p>
+  <a href="{% url 'rides:create' %}" class="btn-primary">➕ Add Your Ride</a>
+</div>
 
 {% endblock %}

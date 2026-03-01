@@ -8,14 +8,53 @@ import uuid
 
 
 class Person(models.Model):
+  # Ride tier choices
+  TIER_REGULAR = "regular"
+  TIER_PREMIUM = "premium"
+  TIER_CHOICES = [
+    (TIER_REGULAR, "Regular YoUber"),
+    (TIER_PREMIUM, "Premium YoUber"),
+  ]
+
+  # Vehicle type choices
+  VEHICLE_SEDAN = "sedan"
+  VEHICLE_SUV = "suv"
+  VEHICLE_TRUCK = "truck"
+  VEHICLE_VAN = "van"
+  VEHICLE_OTHER = "other"
+  VEHICLE_CHOICES = [
+    (VEHICLE_SEDAN, "Sedan"),
+    (VEHICLE_SUV, "SUV"),
+    (VEHICLE_TRUCK, "Truck"),
+    (VEHICLE_VAN, "Van"),
+    (VEHICLE_OTHER, "Other"),
+  ]
+
+  # Personal info
   first_name = models.CharField(max_length=64)
-  origination = models.CharField(max_length=64)
+  last_name = models.CharField(max_length=64, blank=True, default="")
+  email = models.EmailField(max_length=120, blank=True, default="")
+
+  # Origin info
+  origination = models.CharField(max_length=64)           # origin city
+  origination_state = models.CharField(max_length=2, blank=True, default="")  # origin state
+
+  # Destination info
   destination_city = models.CharField(max_length=64)
   destination_state = models.CharField(max_length=2)
+
+  # Ride schedule
   date = models.DateField()
   time = models.TimeField()
+
+  # Ride details
   taking_passengers = models.BooleanField(default=False)
   seats_available = models.IntegerField(default=0)
+  vehicle_type = models.CharField(max_length=10, choices=VEHICLE_CHOICES, default=VEHICLE_SEDAN)
+  ride_tier = models.CharField(max_length=10, choices=TIER_CHOICES, default=TIER_REGULAR)
+
+  def __str__(self):
+    return f"{self.first_name} {self.last_name}".strip() or self.first_name
 
 
 class Event(models.Model):

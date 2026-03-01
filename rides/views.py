@@ -5,13 +5,13 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-
 import random
 import string
 
 from .models import Person, Event, DriverApplication, RideOffer, RideRequest, PersonRideRequest
 from .forms import (
   RideForm,
+  NewRideForm,
   EventCodeForm,
   DriverApplicationForm,
   OrganizerEventCreateForm,
@@ -26,32 +26,35 @@ from .forms import (
 def index(request):
   context = {}
   
-  city = request.GET.get('city', '').strip()
-  state = request.GET.get('state', '').strip()
-  
+  origin_city = request.GET.get('origin_city', '').strip()
+  destination_city = request.GET.get('destination_city', '').strip()
+  destination_state = request.GET.get('destination_state', '').strip()
+
   people = Person.objects.all()
-  
-  if city or state:
+
+  if origin_city or destination_city or destination_state:
     context["inputExists"] = True
-    
+
     query_filters = Q()
-    
-    if city:
-      query_filters &= (
-        Q(origination__icontains=city) | 
-        Q(destination_city__icontains=city)
-      )
-    
-    if state:
-      query_filters &= Q(destination_state__iexact=state)
-    
+
+    if origin_city:
+      query_filters &= Q(origination__icontains=origin_city)
+
+    if destination_city:
+      query_filters &= Q(destination_city__icontains=destination_city)
+
+    if destination_state:
+      query_filters &= Q(destination_state__iexact=destination_state)
+
     people = people.filter(query_filters)
-    
-    context["search_city"] = city
-    context["search_state"] = state.upper()
+
+    context["search_origin_city"] = origin_city
+    context["search_destination_city"] = destination_city
+    context["search_destination_state"] = destination_state.upper()
   
   context["people"] = people
   context["form"] = RideForm()
+  context["new_ride_form"] = NewRideForm()
 
   return render(request, "index_view.html", context)
 
@@ -397,3 +400,19 @@ def airport_portal(request):
     form = AirportEventForm()
 
   return render(request, "airport_portal.html", {"form": form})
+
+
+def create(request):
+  """
+  GET:  show the new-ride registration form.
+  POST: validate and save a new Person (ride listing), then redirect to search.
+  """
+  if request.method == "POST":
+    form = NewRideForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect("rides:index")
+  else:
+    form = NewRideForm()
+
+  return render(request, "new_ride.html", {"form": form})
